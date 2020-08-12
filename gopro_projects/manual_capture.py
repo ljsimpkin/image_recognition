@@ -36,35 +36,14 @@ gpCam.livestream("start")
 
 cap = cv2.VideoCapture("udp://10.5.5.9:8554")
 
-ret1, frame1 = cap.read()
-ret2, frame2 = cap.read()
-
-i = 0
-t_buff = time()
-
 while True:
-    ret1, frame1 = ret2, frame2
-    ret2, frame2 = cap.read()
+    ret, frame = cap.read()
 
-    if time() - t_buff > 3 and ret1 == True and ret2 == True:
-        diff = cv2.absdiff(frame1, frame2)
-        gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
-        blur = cv2.GaussianBlur(gray, (5,5), 0)
-        _, thresh = cv2.threshold(blur, 20, 255, cv2.THRESH_BINARY)
-        dilated = cv2.dilate(thresh, None, iterations=3)
-        contours, _ = cv2.findContours(dilated, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-        for contour in contours:
-            print (cv2.contourArea(contour))
-            print (i, "Motion Detected!", '\a')
-            if cv2.contourArea(contour) < 800:
-                continue
-            # webbrowser.open('https://www.youtube.com/watch?v=iuy-oOJCOoM&t=103s')
-            i += 1
+    if ret == True:
+        if cv2.waitKey(1) & 0xFF == ord('f'):
             photo_face_find(gpCam)
-            t_buff = time()
-            break;
 
-    cv2.imshow("feed", frame1)
+    cv2.imshow("feed", frame)
 
     if time() - t >= 2.5:
         sock.sendto("_GPHD_:0:0:2:0.000000\n".encode(), ("10.5.5.9", 8554))
