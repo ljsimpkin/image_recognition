@@ -9,8 +9,8 @@ video_capture = cv2.VideoCapture(0)
 liam_image = face_recognition.load_image_file("known_images/liam.jpg")
 liam_face_encoding = face_recognition.face_encodings(liam_image)[0]
 
-kalindi_image = face_recognition.load_image_file("known_images/kalindi.jpg")
-kalindi_face_encoding = face_recognition.face_encodings(kalindi_image)[0]
+# kalindi_image = face_recognition.load_image_file("known_images/kalindi.jpg")
+# kalindi_face_encoding = face_recognition.face_encodings(kalindi_image)[0]
 
 known_face_encodings = [
     # liam_face_encoding,
